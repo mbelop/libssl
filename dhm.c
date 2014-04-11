@@ -249,16 +249,4 @@ void dhm_free( dhm_context *ctx )
               &ctx->P, NULL );    
 }
 
-#if defined(XYSSL_SELF_TEST)
-
-/*
- * Checkup routine
- */
-int dhm_self_test( int verbose )
-{
-    return( verbose++ );
-}
-
-#endif
-
 #endif

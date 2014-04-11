@@ -47,11 +47,6 @@
 #define XYSSL_DEBUG_MSG
 
 /*
- * Enable the checkup functions (*_self_test).
- */
-#define XYSSL_SELF_TEST
-
-/*
  * Enable the prime-number generation code.
  */
 #define XYSSL_GENPRIME
