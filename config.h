@@ -146,14 +146,6 @@
 #define XYSSL_MD5_C
 
 /*
- * Module:  net.c
- * Caller:
- *
- * This module provides TCP/IP networking routines.
- */
-#define XYSSL_NET_C
-
-/*
  * Module:  rsa.c
  * Caller:  ssl_cli.c
  *          ssl_srv.c

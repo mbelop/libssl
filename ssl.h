@@ -6,7 +6,6 @@
 
 #include <time.h>
 
-#include "net.h"
 #include "dhm.h"
 #include "rsa.h"
 #include "md5.h"
