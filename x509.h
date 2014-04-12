@@ -93,94 +93,82 @@
 /*
  * Structures for parsing X.509 certificates
  */
-typedef struct _x509_buf
-{
-    int tag;
-    int len;
-    unsigned char *p;
-}
-x509_buf;
+typedef struct _x509_buf {
+	int tag;
+	int len;
+	unsigned char *p;
+} x509_buf;
 
-typedef struct _x509_name
-{
-    x509_buf oid;
-    x509_buf val;
-    struct _x509_name *next;
-}
-x509_name;
+typedef struct _x509_name {
+	x509_buf oid;
+	x509_buf val;
+	struct _x509_name *next;
+} x509_name;
 
-typedef struct _x509_time
-{
-    int year, mon, day;
-    int hour, min, sec;
-}
-x509_time;
+typedef struct _x509_time {
+	int year, mon, day;
+	int hour, min, sec;
+} x509_time;
 
-typedef struct _x509_cert
-{
-    x509_buf raw;
-    x509_buf tbs;
+typedef struct _x509_cert {
+	x509_buf raw;
+	x509_buf tbs;
 
-    int version;
-    x509_buf serial;
-    x509_buf sig_oid1;
+	int version;
+	x509_buf serial;
+	x509_buf sig_oid1;
 
-    x509_buf issuer_raw;
-    x509_buf subject_raw;
+	x509_buf issuer_raw;
+	x509_buf subject_raw;
 
-    x509_name issuer;
-    x509_name subject;
+	x509_name issuer;
+	x509_name subject;
 
-    x509_time valid_from;
-    x509_time valid_to;
+	x509_time valid_from;
+	x509_time valid_to;
 
-    x509_buf pk_oid;
-    rsa_context rsa;
+	x509_buf pk_oid;
+	rsa_context rsa;
 
-    x509_buf issuer_id;
-    x509_buf subject_id;
-    x509_buf v3_ext;
+	x509_buf issuer_id;
+	x509_buf subject_id;
+	x509_buf v3_ext;
 
-    int ca_istrue;
-    int max_pathlen;
+	int ca_istrue;
+	int max_pathlen;
 
-    x509_buf sig_oid2;
-    x509_buf sig;
+	x509_buf sig_oid2;
+	x509_buf sig;
 
-    struct _x509_cert *next; 
-}
-x509_cert;
+	struct _x509_cert *next;
+} x509_cert;
 
 /*
  * Structures for writing X.509 certificates
  */
-typedef struct _x509_node
-{
-    unsigned char *data;
-    unsigned char *p;
-    unsigned char *end;
+typedef struct _x509_node {
+	unsigned char *data;
+	unsigned char *p;
+	unsigned char *end;
 
-    size_t len;
-}
-x509_node;
+	size_t len;
+} x509_node;
 
-typedef struct _x509_raw
-{
-    x509_node raw;
-    x509_node tbs;
+typedef struct _x509_raw {
+	x509_node raw;
+	x509_node tbs;
 
-    x509_node version;
-    x509_node serial;
-    x509_node tbs_signalg;
-    x509_node issuer;
-    x509_node validity;
-    x509_node subject;
-    x509_node subpubkey;
+	x509_node version;
+	x509_node serial;
+	x509_node tbs_signalg;
+	x509_node issuer;
+	x509_node validity;
+	x509_node subject;
+	x509_node subpubkey;
 
-    x509_node signalg;
-    x509_node sign;
-}
-x509_raw;
+	x509_node signalg;
+	x509_node sign;
+} x509_raw;
 
 #ifdef __cplusplus
 extern "C" {
@@ -196,7 +184,7 @@ extern "C" {
  *
  * \return         0 if successful, or a specific X509 error code
  */
-int x509parse_crt( x509_cert *crt, unsigned char *buf, int buflen );
+int x509parse_crt(x509_cert *crt, unsigned char *buf, int buflen);
 
 /**
  * \brief          Load one or more certificates and add them
@@ -207,7 +195,7 @@ int x509parse_crt( x509_cert *crt, unsigned char *buf, int buflen );
  *
  * \return         0 if successful, or a specific X509 error code
  */
-int x509parse_crtfile( x509_cert *crt, char *path );
+int x509parse_crtfile(x509_cert *crt, char *path);
 
 /**
  * \brief          Parse a private RSA key
@@ -220,9 +208,8 @@ int x509parse_crtfile( x509_cert *crt, char *path );
  *
  * \return         0 if successful, or a specific X509 error code
  */
-int x509parse_key( rsa_context *rsa,
-                   unsigned char *buf, int buflen,
-                   unsigned char *pwd, int pwdlen );
+int x509parse_key(rsa_context *rsa, unsigned char *buf, int buflen,
+    unsigned char *pwd, int pwdlen);
 
 /**
  * \brief          Load and parse a private RSA key
@@ -233,25 +220,25 @@ int x509parse_key( rsa_context *rsa,
  *
  * \return         0 if successful, or a specific X509 error code
  */
-int x509parse_keyfile( rsa_context *rsa, char *path, char *password );
+int x509parse_keyfile(rsa_context *rsa, char *path, char *password);
 
 /**
  * \brief          Store the certificate DN in printable form into buf;
  *                 no more than (end - buf) characters will be written.
  */
-int x509parse_dn_gets( char *buf, char *end, x509_name *dn );
+int x509parse_dn_gets(char *buf, char *end, x509_name *dn);
 
 /**
  * \brief          Returns an informational string about the
  *                 certificate.
  */
-char *x509parse_cert_info( char *prefix, x509_cert *crt );
+char *x509parse_cert_info(char *prefix, x509_cert *crt);
 
 /**
  * \brief          Return 0 if the certificate is still valid,
  *                 or BADCERT_EXPIRED
  */
-int x509parse_expired( x509_cert *crt );
+int x509parse_expired(x509_cert *crt);
 
 /**
  * \brief          Verify the certificate signature
@@ -272,24 +259,21 @@ int x509parse_expired( x509_cert *crt );
  *
  * \note           TODO: add two arguments, depth and crl
  */
-int x509parse_verify( x509_cert *crt,
-                      x509_cert *trust_ca,
-                      char *cn, int *flags );
+int x509parse_verify(x509_cert *crt, x509_cert *trust_ca, char *cn, int *flags);
 
 /**
  * \brief          Unallocate all certificate data
  */
-void x509_free( x509_cert *crt );
+void x509_free(x509_cert *crt);
 
 /**
  * \brief          Checkup routine
  *
  * \return         0 if successful, or 1 if the test failed
  */
-int x509_self_test( int verbose );
+int x509_self_test(int verbose);
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* x509.h */
+#endif	/* x509.h */
